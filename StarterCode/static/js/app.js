@@ -16,12 +16,20 @@ function init() {
 
 
     //Read in JSON data and console log it
-    d3.json('../samples.json').then(function(data){
+    d3.json('../samples.json').then(data => {
         console.log(data);
 
         //Create variables to plot
-        var samples = data.names
-        //var sampleValues = data.samples.map(sample => sample.sample_values);
+        var samples = data.names;
+        var metaData = data.metadata;
+        var sampleData = data.samples;
+        let otu_ids = sampleData[0].id;
+        console.log(metaData);
+        console.log(sampleData);
+        console.log(samples);
+        console.log(otu_ids);
+
+        //var metaDssata = data.samples.map(sample => sample.sample_values);
         //var otu_ids = data.samples.map(sample => sample.otu_ids);
         //var otu_labels = data.samples.map(sample =>sample.otu_labels);
 
@@ -52,7 +60,7 @@ function init() {
             // sampleD = data.filter(filterSamples(dataset));
             //console.log(metaD);
             // console.log(sampleD)
-            return sampleID
+            demoPanel(`${sampleID}`);
         };
 
         //console.log(samples);
@@ -60,22 +68,9 @@ function init() {
         //console.log(otu_ids);
         //console.log(otu_labels);
 
-    //     var hBarPlot = {
-    //         type: 'bar',
-    //         orientation: 'h',
-    //         x: otu_ids,
-    //         y: sampleValues,
-    //         text: otu_labels,
-    //     };
-
-    //     var hBarLayout = {
-    //         title: 'Top 10 Belly Bacteria by Sample',
-    //     };
-
     //     Plotly.restyle("bar", "x", [newSample])
     //     Plotly.restyle("bar", "y", [newSample])
     })
-    //hBarPlot();
 
     function demoPanel(sampleID) {
         d3.json('../samples.json').then(data => {
@@ -87,6 +82,8 @@ function init() {
             let sampleMeta = metaData.filter(sample => sample.id == sampleID);
             //Even though metadata is filtered, must pull filtered data from array
             let sampleMeta0 = sampleMeta[0];
+            //Must reset panel html each time or it will append new selection below previous selection
+            panel.html('')
             //Append each key, value pairing from the filtered array
             Object.entries(sampleMeta0).forEach(([key, value]) => {panel.append('h6').text(`${key}: ${value}`);
             });

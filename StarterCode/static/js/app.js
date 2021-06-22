@@ -1,9 +1,9 @@
 function init() {
-    var hBarPlot = [{
+    var traceBar = [{
         type: 'bar',
         orientation: 'h',
-        x: [1, 2, 4],
-        y: [1, 4, 16],
+        x: [1, 2, 4, 5, 6, 2, 1, 6, 8, 10],
+        y: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
         text: ['test1', 'test2', 'test3']
     }];
 
@@ -11,7 +11,7 @@ function init() {
         title: 'Top 10 Belly Bacteria by Sample',
     }
 
-    Plotly.newPlot("bar", hBarPlot, layout);
+    Plotly.newPlot("bar", traceBar, layout);
 
 
 
@@ -20,10 +20,10 @@ function init() {
         console.log(data);
 
         //Create variables to plot
-        var samples = data.names;
-        var metaData = data.metadata;
-        var sampleData = data.samples;
-        let otu_ids = sampleData[0].id;
+        const samples = data.names;
+        const metaData = data.metadata;
+        const sampleData = data.samples;
+        let otu_ids = sampleData[1].otu_ids;
         console.log(metaData);
         console.log(sampleData);
         console.log(samples);
@@ -53,24 +53,41 @@ function init() {
         function getData() {
             var dropDownMenu = d3.select("#selDataset");
             var sampleID = dropDownMenu.property("value");
-            var metaData = [];
-            var sampleData = [];
-            console.log(sampleID)
-            //metaD = data.metadata.filter(filterMetaData(dataset));
-            // sampleD = data.filter(filterSamples(dataset));
-            //console.log(metaD);
-            // console.log(sampleD)
             demoPanel(`${sampleID}`);
+            updateBarPlot(`${sampleID}`);
         };
 
-        //console.log(samples);
-        //console.log(sampleValues);
-        //console.log(otu_ids);
-        //console.log(otu_labels);
-
-    //     Plotly.restyle("bar", "x", [newSample])
-    //     Plotly.restyle("bar", "y", [newSample])
     })
+
+    function updateBarPlot(sampleID) {
+        d3.json('../samples.json').then(data => {
+            //Set data.samples array to variable for clarity
+            let sampleData = data.samples;
+            //Filter sampleData to match function input
+            let matchedSample = sampleData.filter(sample => sample.id == sampleID);
+            //Pull filtered data's otu_id from array
+            let match = matchedSample[0];
+            //Set variables equal to data from match for plotting
+            let matchData = match.sample_values;
+            let matchLabel = match.otu_ids;
+            let matchText = match.otu_labels;
+            //Slice 10 largest values
+            let slicedData = matchData.slice(0,10);
+            let slicedLabel = matchLabel.slice(0,10);
+            let slicedText = matchText.slice(0,10);
+            //Reverse for Plotly defaults
+            let revData = slicedData.reverse();
+            let revLabel = slicedLabel.reverse();
+            let revText = slicedText.reverse();
+            //Map labels scaling and appearance on
+            let labels = revLabel.map(label => `OTU ${label}`)
+            //Restyle horizontal bar chart
+            Plotly.restyle("bar", "x", [revData]);
+            Plotly.restyle("bar", "y", [labels]);
+            Plotly.restyle("bar", "text", [revText]);
+            console.log(slicedData)
+        });
+    };
 
     function demoPanel(sampleID) {
         d3.json('../samples.json').then(data => {

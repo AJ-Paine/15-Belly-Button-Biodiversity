@@ -1,4 +1,5 @@
 function init() {
+    //Create initial bar chart
     var traceBar = [{
         type: 'bar',
         orientation: 'h',
@@ -12,6 +13,29 @@ function init() {
     }
 
     Plotly.newPlot("bar", traceBar, layout);
+
+    //Create initial bubble chart
+    var traceBubble = [{
+        type: 'scatter',
+        mode: 'markers',
+        marker: {
+            color: 'rgb(17, 157, 255)',
+            size: 20,
+            line: {
+                color: 'black',
+                width: 2,
+            },
+        },
+        x: [1, 2, 4, 5, 6, 2, 1, 6, 8, 10],
+        y: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
+        text: ['test1', 'test2', 'test3']
+    }];
+
+    var layoutBubble = {
+        title: `Sample X`,
+    };
+
+    Plotly.newPlot("bubble", traceBubble, layoutBubble);
 
 
 
@@ -54,12 +78,12 @@ function init() {
             var dropDownMenu = d3.select("#selDataset");
             var sampleID = dropDownMenu.property("value");
             demoPanel(`${sampleID}`);
-            updateBarPlot(`${sampleID}`);
+            barPlot(`${sampleID}`);
         };
 
     })
 
-    function updateBarPlot(sampleID) {
+    function barPlot(sampleID) {
         d3.json('../samples.json').then(data => {
             //Set data.samples array to variable for clarity
             let sampleData = data.samples;
@@ -81,12 +105,31 @@ function init() {
             let revText = slicedText.reverse();
             //Map labels scaling and appearance on
             let labels = revLabel.map(label => `OTU ${label}`)
+            //Create new title with sample name
+            newLayout = {
+                title: `Top 10 Belly Bacteria for sample ${sampleID}`,
+            }
             //Restyle horizontal bar chart
             Plotly.restyle("bar", "x", [revData]);
             Plotly.restyle("bar", "y", [labels]);
             Plotly.restyle("bar", "text", [revText]);
+            Plotly.relayout("bar", newLayout);
             console.log(slicedData)
         });
+    };
+
+    function bubblePlot(sampleID) {
+        //Set data.samples array to variable for clarity
+        let sampleData = data.samples;
+        //Filter sampleData to match function input
+        let matchedSample = sampleData.filter(sample => sample.id == sampleID);
+        //Pull filtered data's otu_id from array
+        let match = matchedSample[0];
+        //Define variables to update plot
+        let matchData = match.sample_values;
+        let matchLabel = match.out_ids;
+        let matchText = match.out_labels;
+        //Restyle bubble chart
     };
 
     function demoPanel(sampleID) {

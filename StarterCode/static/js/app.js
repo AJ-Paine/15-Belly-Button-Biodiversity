@@ -20,6 +20,7 @@ function init() {
             type: 'scatter',
             mode: 'markers',
             marker: {
+                opacity: 0.75,
                 color: 'red',
                 size: 20,
                 line: {
@@ -27,9 +28,9 @@ function init() {
                     width: 2,
                 },
             },
-            x: [1, 2, 4, 5, 6, 2, 1, 6, 8, 10],
-            y: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10],
-            text: ['test1', 'test2', 'test3']
+            x: [],
+            y: [],
+            text: []
         }];
         var layoutBubble = {
             title: `Sample X`,
@@ -102,26 +103,19 @@ function init() {
             let matchLabel = match.otu_ids;
             let matchText = match.otu_labels;
             //Restyle size and color for selected sample
-            let markerUpdate = {
-                marker: {
-                    color: matchLabel,
-                    size: matchData,
-                    opacity: 0.5,
-                    line:{
-                        color:'black',
-                        width: 1,
-                    }
-                }
+            var markerUpdate = {
+                marker: {color: 'red'}
             }
             //Create new layout with title
             let newLayout = {
                 title: `OTU ID and Quantity for Sample ${sampleID}`
-            }
+            };
             //Restyle bubble chart
             Plotly.restyle("bubble", "x", [matchLabel]);
             Plotly.restyle("bubble", "y", [matchData]);
             Plotly.restyle("bubble", "text", [matchText]);
-            Plotly.restyle("bubble", "marker", [markerUpdate]);
+            Plotly.restyle("bubble", "marker.color", [matchLabel]);
+            Plotly.restyle("bubble", "marker.size", [matchData]);
             Plotly.relayout("bubble", newLayout);
         };
         //Function to update demographic panel
@@ -142,4 +136,5 @@ function init() {
         };
     });
 };
+
 init();

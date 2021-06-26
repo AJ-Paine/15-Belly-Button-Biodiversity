@@ -13,7 +13,7 @@ The dashboard includes a dropdown menu to select which sample to plot, a scatter
 * D3
 * HTML
 * CSS
-* Python local server
+* Python
 
 ## Deployment
 View the deployed dasboard here!

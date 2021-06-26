@@ -1,6 +1,6 @@
 function init() {
     //Load JSON
-    d3.json('../dataFiles/samples.json').then(data => {
+    d3.json('./dataFiles/samples.json').then(data => {
         //Print json to console
         console.log(data);
         //Set-Up initial hBar plot with empty data

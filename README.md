@@ -16,7 +16,8 @@ The dashboard includes a dropdown menu to select which sample to plot, a scatter
 * Python local server
 
 ## Deployment
-View the dasboard here!
+View the deployed dasboard here!
 
+https://aj-paine.github.io/Belly-Button-Biodiversity/
 
 

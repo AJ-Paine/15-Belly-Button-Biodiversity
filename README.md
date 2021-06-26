@@ -1,10 +1,10 @@
 # Plot.ly Homework - Belly Button Biodiversity
 
-![Bacteria by filterforge.com](Images/bacteria.jpg)
+This repository is for the DU Data Analytics Bootcamp Plotly challenge homework.
 
-In this assignment, you will build an interactive dashboard to explore the [Belly Button Biodiversity dataset](http://robdunnlab.com/projects/belly-button-biodiversity/), which catalogs the microbes that colonize human navels.
+In this assignment, I used D3 and Plotly in javascript to build a dashboard that explores microbes from different sample's bellybuttons.  The dataset is stored in a local JSON file, which I had to access by using a local server via Python.
 
-The dataset reveals that a small handful of microbial species (also called operational taxonomic units, or OTUs, in the study) were present in more than 70% of people, while the rest were relatively rare.
+## Table of Contents
 
 ## Step 1: Plotly
 

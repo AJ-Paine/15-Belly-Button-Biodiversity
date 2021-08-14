@@ -1,4 +1,4 @@
-# Plot.ly Homework - Belly Button Biodiversity
+# Belly Button Biodiversity
 
 ## About
 In this assignment, I used D3 and Plotly in javascript to build an interactive dashboard that explores microbes from different sample's bellybuttons.  The dataset is stored in a local JSON file, which I had to access by using a local server via Python.
